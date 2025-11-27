@@ -1,73 +1,73 @@
-<!DOCTYPE html>    
-<html lang="ar" dir="rtl">    
-<head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    
-<title>منصة المدرسة</title>    
-<link rel="stylesheet" href="style.css">    
-</head>    
-<body>    
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة المدرسة</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<!-- شاشة تسجيل الدخول -->    
-<div id="login-screen" class="container">    
-    <img src="https://i.postimg.cc/Vk1M5tR8/athad-altlab-20251124-192127-0000.png" alt="Login Image" class="login-img">    
-    <h2>تسجيل الدخول</h2>    
+<!-- شاشة تسجيل الدخول -->
+<div id="login-screen" class="container">
+    <img src="https://i.postimg.cc/Vk1M5tR8/athad-altlab-20251124-192127-0000.png" alt="Login Image" class="login-img">
+    <h2>تسجيل الدخول</h2>
 
-    <input type="text" id="code" placeholder="ادخل الكود">    
-    <input type="password" id="password" placeholder="كلمة السر">    
+    <input type="text" id="code" placeholder="ادخل الكود">
+    <input type="password" id="password" placeholder="كلمة السر">
 
-    <button onclick="login()">دخول</button>    
-    <!-- زر الدخول كضيف -->    
-    <button onclick="guestLogin()" class="guest-btn">دخول كضيف</button>    
-</div>    
+    <button onclick="login()">دخول</button>
+    <!-- زر الدخول كضيف -->
+    <button onclick="guestLogin()" class="guest-btn">دخول كضيف</button>
+</div>
 
-<!-- الشاشة الرئيسية -->    
-<div id="home-screen" class="container hidden">    
-    <h2>الخدمات</h2>    
-    <div class="menu-btn" onclick="openPage('وزارة')">موقع الوزارة</div>    
-    <div class="menu-btn" onclick="openPage('مسابقات')">مسابقات قد تهمك</div>    
-    <div class="menu-btn" onclick="openPage('المبادرات')">المبادرات المدرسية</div>    
-    <div class="menu-btn" onclick="openPage('اعلانات')">الإعلانات المدرسية</div>    
+<!-- الشاشة الرئيسية -->
+<div id="home-screen" class="container hidden">
+    <h2>الخدمات</h2>
+    <div class="menu-btn" onclick="openPage('وزارة')">موقع الوزارة</div>
+    <div class="menu-btn" onclick="openPage('مسابقات')">مسابقات قد تهمك</div>
+    <div class="menu-btn" onclick="openPage('المبادرات')">المبادرات المدرسية</div>
+    <div class="menu-btn" onclick="openPage('اعلانات')">الإعلانات المدرسية</div>
     <div class="menu-btn" onclick="openPage('حالة')">حالة الطالب</div>
 
-    <!-- زر للوصول إلى لوحة المشرف (يظهر للجميع في الواجهة، لكن وظائفها نظرية) -->
-    <div class="menu-btn" onclick="hideAll(); document.getElementById('admin-screen').classList.remove('hidden');">لوحة المشرف</div>
+    <!-- زر لوحة المشرف: مخفي افتراضياً، سيظهر فقط لو فعلته الجافاسكريبت للمشرف -->
+    <div class="menu-btn admin-btn hidden" onclick="hideAll(); document.getElementById('admin-screen').classList.remove('hidden');">لوحة المشرف</div>
 
-    <button class="logout-btn" onclick="logout()">تسجيل خروج</button>    
-</div>    
+    <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+</div>
 
-<!-- شاشة حالة الطالب -->    
-<div id="student-screen" class="container hidden">    
-    <h2>حالة الحساب</h2>    
-    <div id="user-info"></div>    
-    <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>    
-</div>    
+<!-- شاشة حالة الطالب -->
+<div id="student-screen" class="container hidden">
+    <h2>حالة الحساب</h2>
+    <div id="user-info"></div>
+    <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>
+</div>
 
-<!-- شاشة المبادرات -->    
-<div id="initiatives-screen" class="container hidden">    
-    <h2>المبادرات المدرسية</h2>    
-    <div class="initiative-card">    
-        <h3>مبادرة وعي لهذا العام</h3>    
-        <p><strong>شعار:</strong> بوعينا نصنع مستقبلنا</p>    
-        <p><strong>هدف المبادرة:</strong> بناء الوعي القومي لعالم متغير</p>    
-        <div class="icons">    
-            <div class="icon" title="الحروب">🪖</div>    
-            <div class="icon" title="العمل">💼</div>    
-            <div class="icon" title="البيئة">🌱</div>    
-            <div class="icon" title="التعليم">📚</div>    
-            <div class="icon" title="التكنولوجيا">💻</div>    
-        </div>    
-        <p>مرر على الأيقونات لتعرف تأثير كل موضوع على عالمنا</p>    
-    </div>    
+<!-- شاشة المبادرات -->
+<div id="initiatives-screen" class="container hidden">
+    <h2>المبادرات المدرسية</h2>
+    <div class="initiative-card">
+        <h3>مبادرة وعي لهذا العام</h3>
+        <p><strong>شعار:</strong> بوعينا نصنع مستقبلنا</p>
+        <p><strong>هدف المبادرة:</strong> بناء الوعي القومي لعالم متغير</p>
+        <div class="icons">
+            <div class="icon" title="الحروب">🪖</div>
+            <div class="icon" title="العمل">💼</div>
+            <div class="icon" title="البيئة">🌱</div>
+            <div class="icon" title="التعليم">📚</div>
+            <div class="icon" title="التكنولوجيا">💻</div>
+        </div>
+        <p>مرر على الأيقونات لتعرف تأثير كل موضوع على عالمنا</p>
+    </div>
 
-    <div class="initiative-card">    
-        <h3>نظفتها أمانة</h3>    
-        <p><strong>هدف المبادرة:</strong> توعية الطلاب بأهمية تنظيف الفصول وأثره على المدرسة</p>    
-    </div>    
+    <div class="initiative-card">
+        <h3>نظفتها أمانة</h3>
+        <p><strong>هدف المبادرة:</strong> توعية الطلاب بأهمية تنظيف الفصول وأثره على المدرسة</p>
+    </div>
 
-    <button class="menu-btn" onclick="openTelegram()">شارك برأيك</button>    
-    <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>    
-</div>    
+    <button class="menu-btn" onclick="openTelegram()">شارك برأيك</button>
+    <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>
+</div>
 
 <!-- شاشة المشرفين (لوحة المشرف) -->
 <div id="admin-screen" class="container hidden">
@@ -109,7 +109,7 @@
     <button class="menu-btn" onclick="hideAll(); document.getElementById('home-screen').classList.remove('hidden');">العودة للخدمات</button>
 </div>
 
-<!-- شاشة الضيف -->    
+<!-- شاشة الضيف -->
 <div id="guest-screen" class="container hidden">
     <h2>مرحبًا بالضيف</h2>
     <button class="menu-btn" onclick="openGuestPage('about')">عن مدرسة ناصر الثانوية العسكرية بنين</button>
@@ -118,7 +118,7 @@
     <button class="menu-btn" onclick="openGuestPage('follow')">ازاي أتابع مع ابني</button>
     <button class="menu-btn" onclick="openGuestPage('difference')">الفرق بين البكوريا والثانوية العامة</button>
     <button class="logout-btn" onclick="logout()">خروج</button>
-</div>    
+</div>
 
 <!-- صفحات الضيف الفرعية -->
 <div id="about-page" class="container hidden">
@@ -163,6 +163,6 @@
     <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
 </div>
 
-<script src="script.js"></script>    
-</body>    
-        </html>
+<script src="script.js"></script>
+</body>
+    </html>
