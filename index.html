@@ -7,21 +7,20 @@
 <link rel="stylesheet" href="style.css">    
 </head>    
 <body>    
-    
+
 <!-- شاشة تسجيل الدخول -->    
 <div id="login-screen" class="container">    
     <img src="https://i.postimg.cc/Vk1M5tR8/athad-altlab-20251124-192127-0000.png" alt="Login Image" class="login-img">    
     <h2>تسجيل الدخول</h2>    
-    
+
     <input type="text" id="code" placeholder="ادخل الكود">    
     <input type="password" id="password" placeholder="كلمة السر">    
-    
+
     <button onclick="login()">دخول</button>    
-    
     <!-- زر الدخول كضيف -->    
     <button onclick="guestLogin()" class="guest-btn">دخول كضيف</button>    
 </div>    
-    
+
 <!-- الشاشة الرئيسية -->    
 <div id="home-screen" class="container hidden">    
     <h2>الخدمات</h2>    
@@ -29,17 +28,21 @@
     <div class="menu-btn" onclick="openPage('مسابقات')">مسابقات قد تهمك</div>    
     <div class="menu-btn" onclick="openPage('المبادرات')">المبادرات المدرسية</div>    
     <div class="menu-btn" onclick="openPage('اعلانات')">الإعلانات المدرسية</div>    
-    <div class="menu-btn" onclick="openPage('حالة')">حالة الطالب</div>    
+    <div class="menu-btn" onclick="openPage('حالة')">حالة الطالب</div>
+
+    <!-- زر للوصول إلى لوحة المشرف (يظهر للجميع في الواجهة، لكن وظائفها نظرية) -->
+    <div class="menu-btn" onclick="hideAll(); document.getElementById('admin-screen').classList.remove('hidden');">لوحة المشرف</div>
+
     <button class="logout-btn" onclick="logout()">تسجيل خروج</button>    
 </div>    
-    
+
 <!-- شاشة حالة الطالب -->    
 <div id="student-screen" class="container hidden">    
     <h2>حالة الحساب</h2>    
     <div id="user-info"></div>    
     <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>    
 </div>    
-    
+
 <!-- شاشة المبادرات -->    
 <div id="initiatives-screen" class="container hidden">    
     <h2>المبادرات المدرسية</h2>    
@@ -56,16 +59,110 @@
         </div>    
         <p>مرر على الأيقونات لتعرف تأثير كل موضوع على عالمنا</p>    
     </div>    
-    
+
     <div class="initiative-card">    
         <h3>نظفتها أمانة</h3>    
         <p><strong>هدف المبادرة:</strong> توعية الطلاب بأهمية تنظيف الفصول وأثره على المدرسة</p>    
     </div>    
-    
+
     <button class="menu-btn" onclick="openTelegram()">شارك برأيك</button>    
     <button class="menu-btn" onclick="backHome()">العودة للخدمات</button>    
 </div>    
-    
+
+<!-- شاشة المشرفين (لوحة المشرف) -->
+<div id="admin-screen" class="container hidden">
+    <h2>لوحة المشرف</h2>
+    <p style="opacity:.9; margin-bottom:12px;">
+        ملاحظة: بعض أزرار هذه اللوحة **نظرية للعرض فقط** — لا تقوم بتعديل البيانات فعليًا.
+    </p>
+
+    <!-- قسم: البحث عن الطلاب (مفعّل فعلياً ويرتبط بدالة searchStudent في script.js) -->
+    <div class="initiative-card" style="text-align:right;">
+        <h3>بحث عن الطلاب</h3>
+        <input id="search-student" type="text" placeholder="اكتب اسم الطالب ثم اضغط Enter أو استخدم زر البحث">
+        <button class="menu-btn" onclick="searchStudent()">ابحث</button>
+        <div id="search-results" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- قسم: إدارة الحسابات (نظرية) -->
+    <div class="initiative-card" style="text-align:right;">
+        <h3>إدارة الحسابات (نظرية)</h3>
+        <p>إنشاء أو حذف الحسابات — عرض نظرى فقط.</p>
+        <button class="menu-btn" onclick="alert('ميزة نظرية للعرض فقط: إنشاء حساب — لا تعمل عمليًا')">إنشاء حساب جديد</button>
+        <button class="menu-btn" onclick="alert('ميزة نظرية للعرض فقط: حذف حساب — لا تعمل عمليًا')">حذف حساب</button>
+    </div>
+
+    <!-- قسم: إدارة المسابقات والمبادرات (نظرية) -->
+    <div class="initiative-card" style="text-align:right;">
+        <h3>إدارة المسابقات والمبادرات (نظرية)</h3>
+        <p>إضافة مسابقات أو مبادرات للعرض داخل النظام (وظيفة نظرية فقط).</p>
+        <button class="menu-btn" onclick="alert('ميزة نظرية للعرض فقط: إضافة مسابقة — لا تعمل عمليًا')">إضافة مسابقة</button>
+        <button class="menu-btn" onclick="alert('ميزة نظرية للعرض فقط: إضافة مبادرة — لا تعمل عمليًا')">إضافة مبادرة</button>
+    </div>
+
+    <!-- قسم: البحث عن حالات الطلاب (عرضي) -->
+    <div class="initiative-card" style="text-align:right;">
+        <h3>البحث عن حالات الطلاب (عرض)</h3>
+        <p>ابحث عن طالب باستخدام مربع البحث أعلاه لعرض بياناته (إذا كانت متاحة).</p>
+    </div>
+
+    <button class="menu-btn" onclick="hideAll(); document.getElementById('home-screen').classList.remove('hidden');">العودة للخدمات</button>
+</div>
+
+<!-- شاشة الضيف -->    
+<div id="guest-screen" class="container hidden">
+    <h2>مرحبًا بالضيف</h2>
+    <button class="menu-btn" onclick="openGuestPage('about')">عن مدرسة ناصر الثانوية العسكرية بنين</button>
+    <button class="menu-btn" onclick="openGuestPage('competitions')">المسابقات والفعاليات</button>
+    <button class="menu-btn" onclick="openGuestPage('vision')">الرؤية العامة للمدرسة</button>
+    <button class="menu-btn" onclick="openGuestPage('follow')">ازاي أتابع مع ابني</button>
+    <button class="menu-btn" onclick="openGuestPage('difference')">الفرق بين البكوريا والثانوية العامة</button>
+    <button class="logout-btn" onclick="logout()">خروج</button>
+</div>    
+
+<!-- صفحات الضيف الفرعية -->
+<div id="about-page" class="container hidden">
+    <h2>مائة وسبعة أعوام من العطاء</h2>
+    <p>
+    تأسست مدرسة ناصر في سنة 1918 وعرفت آنذاك باسم مدرسة ناصر الثانوية الأميرية، وكانت معروفة بانضباطها وأخلاق أبنائها. استمرت المدرسة في العطاء لتخرج شخصيات بارزة من ضباط وأطباء ومهندسين ودكاترة وأساتذة جامعيين، ولا زالت مدرسة ناصر تساعد أبنائها على التفوق الدراسي والتحصيل المعرفي، وتحميهم من آفات العصر من خلال التوعية الدائمة، مع الحفاظ على قيمهم ليكونوا عظماء المستقبل.
+    </p>
+    <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
+</div>
+
+<div id="competitions-page" class="container hidden">
+    <h2>المسابقات والفعاليات</h2>
+    <p>لدينا المسابقات التالية:</p>
+    <ul>
+        <li>المخترع الصغير</li>
+        <li>الطالب المثالي</li>
+    </ul>
+    <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
+</div>
+
+<div id="vision-page" class="container hidden">
+    <h2>الرؤية العامة للمدرسة</h2>
+    <p>
+    ترى المدرسة أن الطلاب هم رجال المستقبل، لذلك تود تطويرهم ورفع قدراتهم إلى الحد الأقصى ليكونوا قمة القمة. تسعى المدرسة دائمًا لرؤية مستوى الطلاب ودعم المتأخرين، ولا يتأخر أي أستاذ عن مساعدة طلابه. كما تحرص على إقامة العدل والمساواة بين الطلاب ونشر الوعي من خلال الأنشطة المدرسية مثل جماعة "بيت الأسرة"، جماعة مناهضة التدخين والإدمان، والهلال الأحمر، وغيرها من الأنشطة.
+    </p>
+    <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
+</div>
+
+<div id="follow-page" class="container hidden">
+    <h2>ازاي أتابع مع ابني</h2>
+    <p>
+    يمكنك زيارة المدرسة والتعرف على مجلس الآباء والأمناء والمعلمين، ومتابعة ابنك من خلالهم، أو عبر جروبات المتابعة التي توفرها المدرسة، أو من خلال المنصة (التواصل مع أستاذ عز كدواني مسؤول الـ IT للحصول على الكود الخاص بك).
+    </p>
+    <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
+</div>
+
+<div id="difference-page" class="container hidden">
+    <h2>الفرق بين البكوريا والثانوية العامة</h2>
+    <p>
+    الفرق بين نظام البكوريا والثانوية العامة، وأهم مميزات كل نظام للطالب.
+    </p>
+    <button class="menu-btn" onclick="backGuest()">العودة لشاشة الضيف</button>
+</div>
+
 <script src="script.js"></script>    
 </body>    
-</html>
+        </html>
