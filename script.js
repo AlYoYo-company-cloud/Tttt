@@ -78,9 +78,7 @@ const accounts = {
       "مقرر فني اتحاد الطلاب"
     ]
   },
-
-  // الحساب الجديد الذي طلبته (مصطفى أشرف)
-  "new2/10": {
+  "new2/10": { // مصطفى أشرف
     pass: "default",
     name: "مصطفى أشرف",
     grade: "الفرقة الثانية",
@@ -91,7 +89,6 @@ const accounts = {
       "مقرر ثقافي وديني اتحاد الطلاب"
     ]
   },
-
   // المشرفين (ادمن)
   "adm9x1k2b": {
     pass: "adm12345",
@@ -118,8 +115,6 @@ const accounts = {
 // ===============================
 Object.keys(accounts).forEach(key => {
   if (!accounts[key].role) {
-    // إذا كان الحقل title موجود و يبدو كـ admin، لا نغيّره
-    // لكن بشكل افتراضي نعتبرهم طلاب
     accounts[key].role = "student";
   }
 });
@@ -147,18 +142,14 @@ function showGuestScreen() {
   hideAll();
   const gs = document.getElementById("guest-screen");
   if (gs) gs.classList.remove("hidden");
-  else showHome(); // fallback آمن لو شاشة الضيف غير موجودة
+  else showHome();
 }
 
 function openGuestPage(page) {
   hideAll();
-  // صفحات الضيف مُعرّفة في HTML كـ "about-page", "competitions-page", ...
   const el = document.getElementById(page + "-page");
   if (el) el.classList.remove("hidden");
-  else {
-    console.warn("صفحة الضيف غير موجودة:", page);
-    showGuestScreen();
-  }
+  else showGuestScreen();
 }
 
 function backGuest() {
@@ -191,7 +182,6 @@ function login() {
 
   if (accounts[code] && accounts[code].pass === pass) {
     localStorage.setItem("loggedInUser", code);
-    // توجيه بحسب الدور
     const role = accounts[code].role;
     if (role === "guest") showGuestScreen();
     else showHome();
@@ -201,13 +191,24 @@ function login() {
 }
 
 // ===============================
-// عرض الشاشة الرئيسية (الخدمات)
+// عرض الشاشة الرئيسية (الخدمات) مع تحكم في زر لوحة المشرف
 // ===============================
 function showHome() {
-  // اخفاء كل الشاشات ثم اظهار الشاشة الرئيسية
   hideAll();
   const home = document.getElementById("home-screen");
   if (home) home.classList.remove("hidden");
+
+  // إظهار زر لوحة المشرف فقط للمشرفين
+  const code = localStorage.getItem("loggedInUser");
+  const user = accounts[code];
+  const adminBtn = document.querySelector(".menu-btn[onclick*='admin-screen']");
+  if (adminBtn) {
+    if (user && user.role === "admin") {
+      adminBtn.classList.remove("hidden");
+    } else {
+      adminBtn.classList.add("hidden");
+    }
+  }
 }
 
 // ===============================
@@ -221,12 +222,9 @@ function showStudent() {
   }
 
   const user = accounts[code];
-
-  // تحسّن: تأكد أن achievements مصفوفة
   const achievements = Array.isArray(user.achievements) ? user.achievements : [];
   const achievementsHTML = achievements.length ? achievements.map(a => `<li>${escapeHtml(a)}</li>`).join("") : `<li>لا توجد إنجازات</li>`;
 
-  // استخدم template literal بشكل صحيح
   document.getElementById("user-info").innerHTML = `
     <div class="user-card">
       <h3>${escapeHtml(user.name || "")}</h3>
@@ -239,7 +237,6 @@ function showStudent() {
       <ul>${achievementsHTML}</ul>
     </div>
   `;
-  // اظهار شاشة الطالب
   hideAll();
   const studentScreen = document.getElementById("student-screen");
   if (studentScreen) studentScreen.classList.remove("hidden");
@@ -250,7 +247,7 @@ function showStudent() {
 // ===============================
 function searchStudent() {
   const inputEl = document.getElementById("search-student");
-  if (!inputEl) return; // لا توجد واجهة بحث حالياً
+  if (!inputEl) return;
 
   const searchInput = inputEl.value.toLowerCase();
   const resultsDiv = document.getElementById("search-results");
@@ -341,7 +338,6 @@ window.onload = function () {
       showHome();
     }
   } else {
-    // عرض شاشة الدخول فقط
     hideAll();
     const login = document.getElementById("login-screen");
     if (login) login.classList.remove("hidden");
@@ -357,7 +353,7 @@ function logout() {
 }
 
 // ===============================
-// دالة مساعدة: هروب عن النصوص لحماية الHTML (أمنة وبسيطة)
+// دالة مساعدة: هروب عن النصوص لحماية الHTML
 // ===============================
 function escapeHtml(text) {
   if (text === null || text === undefined) return "";
@@ -367,4 +363,4 @@ function escapeHtml(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-    }
+      }
